@@ -1,0 +1,44 @@
+{
+  "name": "sgm-api",
+  "version": "1.0.0",
+  "description": "SGM read-only API (Node + Express + PostgreSQL)",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "start:prod": "node dist/server.js",
+    "db:check": "ts-node --transpile-only src/scripts/db-check.ts",
+    "smoke": "ts-node --transpile-only src/scripts/smoke.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "auth:bootstrap": "ts-node --transpile-only src/scripts/bootstrap-admin.ts",
+    "lint": "echo \"no linter configured\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "pg": "^8.13.1",
+    "pino": "^9.4.0",
+    "qrcode": "^1.5.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.10.2",
+    "@types/qrcode": "^1.5.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^4.1.0"
+  }
+}

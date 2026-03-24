@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+server/node_modules/
+mobile/node_modules/
+
+# build
+dist/
+build/
+server/dist/
+mobile/dist/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+server/.env
+server/.env.*
+!server/.env.example
+mobile/.env
+mobile/.env.*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# uploads / runtime
+server/uploads/
+uploads/
+
+# test / temp
+coverage/
+.tmp/
+temp/

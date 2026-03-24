@@ -1,0 +1,12 @@
+---
+description: Priorizar API real; mock só como fallback temporário e isolado
+alwaysApply: true
+---
+
+# API real primeiro, mock isolado
+
+- **Quando existir dado real para aquela tela**, use sempre a API real (ex.: `/api/sgm/sites`, `/api/sgm/machines`). Não misture mock com API na mesma jornada.
+- **Mock** só como fallback temporário e **claramente isolado** (ex.: arquivo `*.mock.ts`, funções com sufixo `Mock`, comentário "fallback mock").
+- **Telas de plantas**: lista e mapa devem ler de `/api/sgm/sites` e `/api/sgm/machines?siteId=`. Nenhuma dependência de mock para a navegação principal.
+- **Navegação**: `/plants` → lista real; `/plants/:siteId` → siteId real da API; clique em máquina → `/machines/:machineId` com UUID real.
+- Preservar estados de **loading**, **erro** e **vazio** em todas as telas que consomem API.
