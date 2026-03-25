@@ -1,19 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
-import { env } from "../../config/env";
 import { ApiError } from "../../utils/api-error";
-import { SGM_ACCESS_TOKEN_COOKIE } from "./auth.cookies";
+import {
+  getSgmAccessCookieClearOptions,
+  getSgmAccessCookieOptions,
+  SGM_ACCESS_TOKEN_COOKIE,
+} from "./auth.cookies";
 import { findActiveUserById } from "./auth.repository";
 import { applySgmUserFromRequest } from "./auth.session";
 import { loginWithUsernamePassword, signAccessToken } from "./auth.service";
 import { toAuthUserPublic } from "./auth.types";
-
-const accessCookieOptions = {
-  httpOnly: true,
-  sameSite: "lax" as const,
-  path: "/",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  secure: env.isProduction,
-};
 
 export async function postLogin(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -26,7 +21,7 @@ export async function postLogin(req: Request, res: Response, next: NextFunction)
     }
     const user = await loginWithUsernamePassword(username, password);
     const token = signAccessToken(user.id);
-    res.cookie(SGM_ACCESS_TOKEN_COOKIE, token, accessCookieOptions);
+    res.cookie(SGM_ACCESS_TOKEN_COOKIE, token, getSgmAccessCookieOptions());
     res.json({ user });
   } catch (e) {
     if (e instanceof ApiError) {
@@ -38,7 +33,7 @@ export async function postLogin(req: Request, res: Response, next: NextFunction)
 }
 
 export function postLogout(_req: Request, res: Response): void {
-  res.clearCookie(SGM_ACCESS_TOKEN_COOKIE, { path: "/" });
+  res.clearCookie(SGM_ACCESS_TOKEN_COOKIE, getSgmAccessCookieClearOptions());
   res.json({ ok: true });
 }
 
@@ -51,7 +46,7 @@ export async function getMe(req: Request, res: Response, next: NextFunction): Pr
     }
     const row = await findActiveUserById(req.sgmUser.id);
     if (!row) {
-      res.clearCookie(SGM_ACCESS_TOKEN_COOKIE, { path: "/" });
+      res.clearCookie(SGM_ACCESS_TOKEN_COOKIE, getSgmAccessCookieClearOptions());
       res.status(401).json({ message: "Sessão expirada", code: "UNAUTHORIZED" });
       return;
     }

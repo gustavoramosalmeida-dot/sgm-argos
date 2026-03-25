@@ -19,7 +19,8 @@ export type AuthUser = {
 type AuthContextValue = {
   user: AuthUser | null;
   loading: boolean;
-  refresh: () => Promise<void>;
+  /** GET /api/auth/me com credentials; devolve o utilizador ou null se não houver sessão. */
+  refresh: () => Promise<AuthUser | null>;
   logout: () => Promise<void>;
 };
 
@@ -29,17 +30,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<AuthUser | null> => {
     try {
       const res = await fetch('/api/auth/me', { credentials: 'include' });
       if (!res.ok) {
         setUser(null);
-        return;
+        return null;
       }
       const data = (await res.json()) as { user: AuthUser };
       setUser(data.user);
+      return data.user;
     } catch {
       setUser(null);
+      return null;
     }
   }, []);
 

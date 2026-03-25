@@ -22,6 +22,7 @@ Copie `.env.example` para `.env` na pasta `server/` e ajuste os valores.
 | `TRUST_PROXY` | `1` se a API estiver atrás de Nginx/ALB (cookies/IP corretos) |
 | `REQUIRE_DB_ON_STARTUP` | `1` recomendado: processo não sobe se o DB falhar |
 | `PUBLIC_BASE_URL` | Base pública da API para URLs de imagem (sem `/` final) |
+| `SGM_AUTH_COOKIE_SECURE` | `1` se o site for servido em **HTTPS** (flag `Secure` no cookie JWT); omita ou `0` em **HTTP** (ex.: acesso por IP sem TLS) |
 
 ### `PUBLIC_BASE_URL` (recomendado quando front e API têm origens diferentes)
 

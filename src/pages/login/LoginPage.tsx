@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthContext';
 import { getSafeReturnUrl } from '@/utils/safeReturnUrl';
@@ -49,7 +49,10 @@ export function LoginPage() {
         const j = (await res.json().catch(() => ({}))) as { message?: string };
         throw new Error(j.message ?? `Falha no login (${res.status})`);
       }
-      await refresh();
+      const me = await refresh();
+      if (!me) {
+        throw new Error('Não foi possível confirmar a sessão após o login.');
+      }
       if (safeReturn.startsWith('http')) {
         window.location.assign(safeReturn);
       } else {

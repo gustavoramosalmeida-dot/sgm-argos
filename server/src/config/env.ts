@@ -36,6 +36,11 @@ const envSchema = z.object({
   QR_RESOLVER_ALLOWED_USER_IDS: z.string().optional(),
   /** "1" ativa logs [QR DEBUG] no /q; em development liga por omissão (use "0" para silenciar). */
   SGM_QR_DEBUG: z.string().optional(),
+  /**
+   * Cookie `sgm_access_token`: flag `Secure` (só enviado em HTTPS).
+   * Em HTTP (ex.: acesso por IP) use `0` ou omita. Com HTTPS na frente, defina `1`.
+   */
+  SGM_AUTH_COOKIE_SECURE: z.string().optional(),
 
   /** Em EC2 com Postgres local, use 127.0.0.1 ou defina DATABASE_URL. */
   PGHOST: z.string().default("127.0.0.1"),
@@ -113,6 +118,15 @@ const requireDbOnStartup =
     .trim()
     .toLowerCase() === "true";
 
+/** `Secure` no cookie JWT; omitido/`0` = HTTP; `1` = HTTPS. */
+const authCookieSecure = (() => {
+  const raw = rawEnv.SGM_AUTH_COOKIE_SECURE;
+  if (raw == null || String(raw).trim() === "") return false;
+  const t = String(raw).trim().toLowerCase();
+  if (t === "1" || t === "true" || t === "yes") return true;
+  return false;
+})();
+
 export const env = {
   port: Number(rawEnv.PORT),
   nodeEnv: rawEnv.NODE_ENV,
@@ -127,6 +141,8 @@ export const env = {
   qrResolverDebugLogs,
   isProduction: rawEnv.NODE_ENV === "production",
   isDevelopment: rawEnv.NODE_ENV === "development",
+  /** Cookie `sgm_access_token`: usar `Secure` (definir `SGM_AUTH_COOKIE_SECURE=1` atrás de HTTPS). */
+  authCookieSecure,
   /** Primeira origem CORS (compat); preferir `corsOrigins`. */
   corsOrigin: corsOrigins[0] ?? "http://localhost:5173",
   corsOrigins,
