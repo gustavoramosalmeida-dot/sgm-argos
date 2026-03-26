@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "./styles/custom.css";
+
+@theme {
+  --color-mv-void: #0b1220;
+  --color-mv-void-deep: #070b12;
+  --color-mv-elevated: #101824;
+  --color-mv-elevated-soft: #141d2e;
+  --color-mv-navy-deep: #1c4e7e;
+  --color-mv-navy-mid: #3e7baa;
+  --color-mv-gold: #c99c3c;
+  --color-mv-gold-dim: #a67f2e;
+  --color-mv-muted: #94a3b8;
+  --color-mv-subtle: #cbd5e1;
+  --color-mv-line: rgba(148, 163, 184, 0.12);
+  --color-mv-line-strong: rgba(148, 163, 184, 0.18);
+  --font-heading: "Montserrat", system-ui, sans-serif;
+  --font-body: "Open Sans", system-ui, sans-serif;
+}
+
+html {
+  scroll-padding-top: 5.25rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background-color: var(--color-mv-void);
+  background-image:
+    radial-gradient(ellipse 130% 90% at 50% -35%, rgba(28, 78, 126, 0.26), transparent 58%),
+    radial-gradient(ellipse 80% 60% at 100% 50%, rgba(16, 24, 36, 0.9), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 0% 80%, rgba(28, 78, 126, 0.12), transparent 45%);
+  color: #f1f5f9;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@keyframes mv-hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mv-hero-enter > * {
+  animation: mv-hero-fade 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mv-hero-enter > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.mv-hero-enter > *:nth-child(2) {
+  animation-delay: 55ms;
+}
+.mv-hero-enter > *:nth-child(3) {
+  animation-delay: 105ms;
+}
+.mv-hero-enter > *:nth-child(4) {
+  animation-delay: 150ms;
+}
+.mv-hero-enter > *:nth-child(5) {
+  animation-delay: 190ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mv-hero-enter > * {
+    animation: none !important;
+  }
+}

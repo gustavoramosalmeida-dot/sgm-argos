@@ -8,6 +8,7 @@ import { MachineVisualEditorPage } from '../pages/machines/MachineVisualEditorPa
 import { FabricaPage } from '../pages/FabricaPage';
 import { MaquinasPage } from '../pages/MaquinasPage';
 import { LoginPage } from '../pages/login/LoginPage';
+import { VisaoSgmPage } from '../pages/sgm/VisaoSgmPage';
 
 export function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ export function AppRoutes() {
           <Route path="plants" element={<PlantasPage />} />
           <Route path="plants/:siteId" element={<MapaPlantaPage />} />
           <Route path="machines/:machineId" element={<MaquinaPage />} />
+          <Route path="visao-sgm" element={<VisaoSgmPage />} />
           <Route path="*" element={<Navigate to="/plants" replace />} />
         </Route>
       </Route>
